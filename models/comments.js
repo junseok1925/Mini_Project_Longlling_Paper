@@ -31,11 +31,11 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      userId: {
+      UserId: {
         allowNull: false,
         type: DataTypes.INTEGER,
         references: {
-          model: "users",
+          model: "Users",
           key: "userId",
         },
         onDelete: "CASCADE",
@@ -44,11 +44,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      postId: {
+      PostId: {
         allowNull: false,
         type: DataTypes.INTEGER,
         references: {
-          model: "posts",
+          model: "Posts",
           key: "postId",
         },
         onDelete: "CASCADE",

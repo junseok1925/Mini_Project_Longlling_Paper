@@ -15,12 +15,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.Users, {
         targetKey: 'userId',
-        foreignKey: 'userId',
+        foreignKey: 'UserId',
         onDelete: 'CASCADE',
       });
       this.hasMany(models.Comments, {
         sourceKey: 'postId',
-        foreignKey: 'postId',
+        foreignKey: 'PostId',
       });
     }
   }
@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      userId: {
+      UserId: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
