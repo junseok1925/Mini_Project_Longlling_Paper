@@ -42,8 +42,9 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 			},
 			banCount:{
-				allowNull: true,
-				type: DataTypes.INTEGER
+				allowNull: false,
+				type: DataTypes.INTEGER,
+				defaultValue:0,
 			  },
 			createdAt: {
 				allowNull: false,
