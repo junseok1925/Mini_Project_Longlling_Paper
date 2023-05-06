@@ -52,7 +52,7 @@ router.post("/posts",authMiddleware, async(req,res)=>{
     }
     
     await Posts.create({
-        postId : postId
+        postId : postId,
         UserId : userId,
         title : title,
         content : content,
