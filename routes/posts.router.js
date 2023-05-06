@@ -5,7 +5,7 @@ const { Op } = require('sequelize');
 const { Posts, Users } = require('../models');
 
 //내 롱링페이퍼 삭제 : DELETE -> /posts/:postId
-router.delete('/:postId', authMiddleware, async (req, res) => {
+router.delete('/posts/:postId', authMiddleware, async (req, res) => {
     try {
         const { userId } = res.locals.user;
         const { postId } = req.params;
@@ -44,25 +44,60 @@ router.delete('/:postId', authMiddleware, async (req, res) => {
 //롤링 페이퍼 생성api 
 router.post("/posts",authMiddleware, async(req,res)=>{
     try{
-    const {userId} = res.locals.user
+    const {userId, nickname} = res.locals.user
     const {title, content} = req.body
+
 
     if(title===null&&content===null){
      return res.status(400).json({errorMessage : "제목 또는 내용을 입력하세요."})
     }
     
     await Posts.create({
-        postId : postId
         UserId : userId,
         title : title,
         content : content,
+        nickname: nickname,
     })
 return res.status(200).json({message : "롤 생성에 성공하였습니다."})
 }catch(err){
+    console.error(err);
     res.status(400).json({errorMessage : "롤 생성에 실패하였습니다."})
 }
 
 })
+
+
+// [채민] 롤 수정 : put, /api/posts/:postId, 롤링페이퍼 상세화면(p.15)
+router.put("/posts/:postId", authMiddleware,
+    async (req, res) => { 
+    try {
+      const { postId } = req.params;
+      const { title, content } = req.body;
+      const { nickname, UserId } = res.locals.user;
+
+      const post = await Posts.findOne({
+        where: { postId: postId } 
+      });
+
+      if (!post) return res.status(404).json({ errorMessage: "게시글이 존재하지 않습니다." });
+
+      if (post.nickname !== nickname)
+        return res.status(403).json({ errorMessage: "게시글 수정의 권한이 존재하지 않습니다." });
+
+      await Posts.update(
+        { title, content },
+        { where: { postId: postId } }
+      ).catch((err) => {
+        return res.status(401).json({ errorMessage: "게시글이 정상적으로 수정되지 않았습니다." });
+      });
+
+      return res.status(200).json({ message: "게시글을 수정하였습니다." });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ errorMessage: "게시글 수정에 실패하였습니다." });
+    }
+  }
+);
 
 
 module.exports = router;
