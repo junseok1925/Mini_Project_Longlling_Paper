@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const { Users, Comments } = require("../models");
+const authMiddleware = require("../middlewares/auth-middleware");
+const { Users, Posts, Comments, sequelize } = require("../models");
 
 // ================================================ 회원가입 api ================================================
 router.post("/signup", async (req, res) => {
@@ -103,7 +104,7 @@ router.post("/comments/:commentId/report", async (req, res) => {
     // 연달아 3번 누르면 자동으로 유저데이터삭제 -> 그 사실을 모르는 유저는 로그인이 왜 안될까 생각 -> 같은 정보로 다시 회원가입? -> 해당 유저의 이메일주소를 이메일 유효성 검사에서 걸리게끔 자동으로 추가해주는 api ? 그럼 banEmail테이블을 만들어서 해당 정보를 뺴와서 다시 가져오기?
     // 댓글 남길때 유효성 검사를 진행 하는것도 나쁘지않음 -> "멍청이" 같은 정확한 욕설은 거를 수 있지만 "몽총이" 같은 욕설은 필터링이 불가능...
     // 신고를 당한 댓글 목록만 보여주는 api를 짜서 관리자가 확인 후 처리하는 방법도 나쁘지 않을까...?( 신고자정보, 신고당한 댓글내용, 댓글 작성자를 가져옴 )
-    
+
     if (comment.banCount >= 3) {
       await Users.destroy({ where: { userId: comment.userId } });
       res.status(200).json({ message: "댓글 작성자가 강제탈퇴되었습니다." });
@@ -118,6 +119,42 @@ router.post("/comments/:commentId/report", async (req, res) => {
   }
 });
 
-module.exports = router;
+//================================마이페이지===================================
+router.get("/api/users/:userId", authMiddleware, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { UserId } = res.locals.user;
+
+    if (userId !== UserId) {
+      return res.status(403).json({ message: "조회 권한이 없습니다." });
+    }
+
+    if (!UserId) {
+      return res.status(403).json({ message: "로그인이 필요한 기능입니다." });
+    }
+
+    const mypage = await Users.findAll({
+      attributes: ['nickname'],
+      order: [['createdAt', 'DESC']],
+      include: [
+        {
+          model: Posts,
+          attributes: ['postId', 'title', 'content', 'createdAt'],
+          include: [{
+            model: Comments,
+            attributes: ['commentId', 'comment', 'createdAt']
+          }]
+        }
+      ],
+      where: { UserId },
+      group: ['Users.userId']
+    });
+
+    res.status(200).json({ result: mypage });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ errorMessage: "마이페이지 조회에 실패하였습니다." });
+  }
+});
 
 module.exports = router;
