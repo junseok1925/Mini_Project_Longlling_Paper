@@ -150,13 +150,13 @@ router.get("/users", authMiddleware, async (req, res) => {
       where: { userId }
     });
 
-    const posts = await Users.findAll({
+    const posts = await Posts.findAll({
       attributes: ["title", "content", "createdAt"],
       order: [['createdAt', 'DESC']],
       where: { userId }
     });
 
-    const comments = await Users.findAll({
+    const comments = await Comments.findAll({
       attributes: ["comment", "createdAt"],
       order: [['createdAt', 'DESC']],
       where: { userId }
