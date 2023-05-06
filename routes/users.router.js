@@ -137,26 +137,24 @@ router.get("/users", authMiddleware, async (req, res) => {
       return res.status(403).json({ message: "조회 권한이 없습니다." });
     }
 
-    const mypage = await Users.findAll({
-      attributes: ["nickname"],
-      order: [["createdAt", "DESC"]],
-      include: [
-        {
-          model: Posts,
-          attributes: ["postId", "title", "content", "createdAt"],
-          include: [
-            {
-              model: Comments,
-              attributes: ["commentId", "comment", "createdAt"],
-            },
-          ],
-        },
-      ],
-      where: { userId },
-      // group: ['Users.userId']
+    const userInfo = await Users.findOne({
+      attributes: ["nickname", "email"],
+      where: { userId }
     });
 
-    res.status(200).json({ result: mypage });
+    const posts = await Users.findAll({
+      attributes: ["title", "content", "createdAt"],
+      order: [['createdAt', 'DESC']],
+      where: { userId }
+    });
+
+    const comments = await Users.findAll({
+      attributes: ["comment", "createdAt"],
+      order: [['createdAt', 'DESC']],
+      where: { userId }
+    });
+
+    res.status(200).json({ userInfo, posts, comments });
   } catch (err) {
     console.error(err);
     res.status(400).json({
