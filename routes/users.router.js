@@ -7,6 +7,7 @@ const { Users, Posts, Comments, sequelize } = require("../models");
 // ================================================ 회원가입 api ================================================
 router.post("/signup", async (req, res) => {
   try {
+
     const { nickname, password, email } = req.body;
     const isExistUser = await Users.findOne({ where: { nickname } });
 
@@ -120,17 +121,12 @@ router.post("/comments/:commentId/report", async (req, res) => {
 });
 
 //================================마이페이지===================================
-router.get("/api/users/:userId", authMiddleware, async (req, res) => {
+router.get("/users", authMiddleware, async (req, res) => {
   try {
-    const { userId } = req.params;
-    const { UserId } = res.locals.user;
+    const { userId } = res.locals.user;
 
-    if (userId !== UserId) {
+    if (!userId) {
       return res.status(403).json({ message: "조회 권한이 없습니다." });
-    }
-
-    if (!UserId) {
-      return res.status(403).json({ message: "로그인이 필요한 기능입니다." });
     }
 
     const mypage = await Users.findAll({
@@ -146,8 +142,8 @@ router.get("/api/users/:userId", authMiddleware, async (req, res) => {
           }]
         }
       ],
-      where: { UserId },
-      group: ['Users.userId']
+      where: { userId },
+      // group: ['Users.userId']
     });
 
     res.status(200).json({ result: mypage });

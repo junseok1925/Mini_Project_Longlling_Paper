@@ -59,9 +59,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
       },
-      banCount: {
-        type: DataTypes.INTEGER,
-      },
     },
     {
       sequelize,

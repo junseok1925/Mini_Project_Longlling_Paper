@@ -12,7 +12,7 @@ module.exports = {
       email: {
 				allowNull: false,
 				unique: true,
-				type: Sequelize.INTEGER
+				type: Sequelize.STRING
 			},
       nickname: {
         allowNull: false,
@@ -21,6 +21,10 @@ module.exports = {
       password: {
         allowNull: false,
         type: Sequelize.STRING
+      },
+      banCount:{
+        allowNull: true,
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
