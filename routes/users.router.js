@@ -54,26 +54,26 @@ router.post("/signup", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    const { nickname, password } = req.body;
-    const user = await Users.findOne({ where: { nickname } });
+    const { email, password } = req.body;
+    const user = await Users.findOne({ where: { email } });
 
     // #412 해당하는 유저가 존재하지 않는 경우
     // nickname과 password 예외처리를 묶어서 한번에 하는 이유
     // -> nickname과 password를 따로 예외처리를 하면 해킹 당할 확률이 높기 때문, 둘 중 무엇이 오류인지 알려주지않음
     if (!user || user.password !== password) {
       res.status(412).json({
-        errorMessage: "닉네임 또는 패스워드를 확인해주세요.",
+        errorMessage: "이메일 또는 패스워드를 확인해주세요.",
       });
       return;
     }
     // JWT 생성하기
     const token = jwt.sign(
-      { nickname: user.nickname, userId: user.userId },
+      { email: user.email, userId: user.userId },
       "longlling-paper-key" // auth-middleware.js에서 설정한 비밀키
     );
     res.cookie("Authorization", `Bearer ${token}`);
 
-    return res.status(200).json({ token });
+    return res.status(200).json({ message: "로그인에 성공했습니다." });
   } catch (error) {
     console.error(error);
     res.status(400).json({
