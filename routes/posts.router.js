@@ -3,12 +3,13 @@ const router = express.Router();
 const authMiddleware = require("../middlewares/auth-middleware");
 const { Posts } = require("../models");
 
+
+//롤링 페이퍼 생성api 
 router.post("/posts",authMiddleware, async(req,res)=>{
     try{
     const {userId} = res.locals.user
     const {title, content} = req.body
-    const RE_TITLE = 
-    const RE_CONTENT = 
+
     if(title===null&&content===null){
      return res.status(400).json({errorMessage : "제목 또는 내용을 입력하세요."})
     }
