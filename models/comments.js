@@ -40,10 +40,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         onDelete: "CASCADE",
       },
-      nickname: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
       PostId: {
         allowNull: false,
         type: DataTypes.INTEGER,
