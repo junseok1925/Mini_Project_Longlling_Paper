@@ -64,4 +64,5 @@ router.get('/api/posts/:postId/comments', authMiddleware, async (req, res) => {
     };
 });
 
+
 module.exports = router;
