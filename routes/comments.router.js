@@ -41,6 +41,28 @@ router.post('/:postId/comments', authMiddleware, async (req, res) => {
     }
 });
 
+router.get('/api/posts/:postId/comments', authMiddleware, async (req, res) => {
+    try {
+        const { postId } = req.params;
+
+        const comments = await Comments.findAll({
+            attributes: [ 
+                'commentId', 
+                'UserId', 
+                'PostId', 
+                'comment', 
+                'createdAt', 
+                'updatedAt'
+            ],
+            where: { PostId: postId }
+        });
+
+        res.status(200).json({ results: comments});
+    } catch (err) {
+        console.error(err);
+        res.status(400).json({ errorMessage: '롱링페이지 조회에 실패하였습니다.' });
+    };
+});
 
 
 module.exports = router;
