@@ -40,7 +40,7 @@ router.post("/posts/:postId/comments", authMiddleware, async (req, res) => {
   }
 });
 
-// 댓글 조회
+// 롱링페이지 상세조회(프레임워크 12P)
 router.get("/posts/:postId/comments", authMiddleware, async (req, res) => {
   try {
     const { postId } = req.params;
