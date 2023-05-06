@@ -41,4 +41,6 @@ router.post('/:postId/comments', authMiddleware, async (req, res) => {
     }
 });
 
+
+
 module.exports = router;
