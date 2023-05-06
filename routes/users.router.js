@@ -9,6 +9,7 @@ router.post("/signup", async (req, res) => {
   try {
     const { nickname, password, email } = req.body;
     const isExistUser = await Users.findOne({ where: { nickname } });
+    const isExistEmail = await Users.findOne({ where: { email } });
 
     // #412 nickname, email, password를 입력하지 않을 경우
     if (!nickname) {
@@ -27,12 +28,19 @@ router.post("/signup", async (req, res) => {
       });
     }
 
-    // #412 nickname이 중복된 경우
+    // #412 nickname이 이미 사용중인 경우
     if (isExistUser) {
       return res.status(412).json({
-        errorMessage: "중복된 닉네임입니다.",
+        errorMessage: "이미 사용중인 닉네임입니다.",
       });
     }
+
+      // #412 email이 이미 사용중인 경우
+      if (isExistEmail) {
+        return res.status(412).json({
+          errorMessage: "이미 사용중인 이메일입니다.",
+        });
+      }
 
     const user = await Users.create({ nickname, email, password });
     await user.save();
@@ -99,7 +107,7 @@ router.post("/comments/:commentId/report", async (req, res) => {
     if (!user) {
       return res
         .status(404)
-        .json({ errorMessage: "사용자를 찾을 수 없습니다." });
+        .json({ errorMessage: "댓글 작성자를 찾을 수 없습니다." });
     }
 
     // 신고 횟수를 증가시키고 저장
@@ -116,7 +124,7 @@ router.post("/comments/:commentId/report", async (req, res) => {
     // 신고를 당한 댓글 목록만 보여주는 api를 짜서 관리자가 확인 후 처리하는 방법도 나쁘지 않을까...?( 신고자정보, 신고당한 댓글내용, 댓글 작성자를 가져옴 )
     if (user.banCount >= 3) {
       await Users.destroy({ where: { userId: user.userId } });
-      res.status(200).json({ message: "댓글 작성자가 강제탈퇴되었습니다." });
+      res.status(200).json({ message: "부적절한 댓글작성으로 해당사용자는 서비스 이용이 중지되었습니다." });
     } else {
       res.status(200).json({ message: "댓글 신고가 접수 되었습니다." });
     }
