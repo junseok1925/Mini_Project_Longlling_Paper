@@ -123,7 +123,7 @@ router.post("/comments/:commentId/report", async (req, res) => {
     // 댓글 남길때 유효성 검사를 진행 하는것도 나쁘지않음 -> "멍청이" 같은 정확한 욕설은 거를 수 있지만 "몽총이" 같은 욕설은 필터링이 불가능...
     // 신고를 당한 댓글 목록만 보여주는 api를 짜서 관리자가 확인 후 처리하는 방법도 나쁘지 않을까...?( 신고자정보, 신고당한 댓글내용, 댓글 작성자를 가져옴 )
     if (user.banCount >= 3) {
-      await Users.destroy({ where: { userId: user.userId } });
+      await Users.destroy({ where: { userId: comment.userId } });
       res.status(200).json({ message: "부적절한 댓글작성으로 해당사용자는 서비스 이용이 중지되었습니다." });
     } else {
       res.status(200).json({ message: "댓글 신고가 접수 되었습니다." });
