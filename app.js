@@ -12,9 +12,15 @@ app.use(cookieParser());
 app.use('/api', usersRouter);
 app.use('/api', postsRouter);
 app.use('/api', commentsRouter);
+app.use(cookieParser());
+
 
 
 app.listen(PORT, () => {
   console.log(PORT, '포트 번호로 서버가 실행되었습니다.');
 })
+
+// app.get('/', function(req,res){
+//   res.sendFile(path.join(__dirname,'Project_Longlling_Papper/public/index.html'));
+// })
 

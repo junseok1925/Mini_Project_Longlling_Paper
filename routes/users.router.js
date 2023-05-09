@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
+const { setToken } = require("../middlewares/token"); // token.js에서 setToken 함수를 가져온다.
 const authMiddleware = require("../middlewares/auth-middleware");
 const { Users, Posts, Comments, sequelize } = require("../models");
 
@@ -9,6 +10,7 @@ router.post("/signup", async (req, res) => {
   try {
     const { nickname, password, email } = req.body;
     const isExistUser = await Users.findOne({ where: { nickname } });
+    const isExistEmail = await Users.findOne({ where: { email } });
 
     // #412 nickname, email, password를 입력하지 않을 경우
     if (!nickname) {
@@ -27,12 +29,19 @@ router.post("/signup", async (req, res) => {
       });
     }
 
-    // #412 nickname이 중복된 경우
+    // #412 nickname이 이미 사용중인 경우
     if (isExistUser) {
       return res.status(412).json({
-        errorMessage: "중복된 닉네임입니다.",
+        errorMessage: "이미 사용중인 닉네임입니다.",
       });
     }
+
+      // #412 email이 이미 사용중인 경우
+      if (isExistEmail) {
+        return res.status(412).json({
+          errorMessage: "이미 사용중인 이메일입니다.",
+        });
+      }
 
     const user = await Users.create({ nickname, email, password });
     await user.save();
@@ -67,14 +76,13 @@ router.post("/login", async (req, res) => {
       });
       return;
     }
-    // JWT 생성하기
-    const token = jwt.sign(
-      { email: user.email, userId: user.userId },
-      "longlling-paper-key" // auth-middleware.js에서 설정한 비밀키
-    );
-    res.cookie("Authorization", `Bearer ${token}`);
+      // setToken 함수를 사용하여 accessToken과 refreshToken을 생성합니다.
+      const { accessToken, refreshToken } = setToken(user.userId);
 
-    return res.status(200).json({ message: "로그인에 성공했습니다." });
+      res.cookie("accessToken", accessToken);
+      res.cookie("refreshToken", refreshToken);
+
+    return res.status(200).json({ message: "로그인에 성공했습니다."}  );
   } catch (error) {
     console.error(error);
     res.status(400).json({
@@ -99,7 +107,7 @@ router.post("/comments/:commentId/report", async (req, res) => {
     if (!user) {
       return res
         .status(404)
-        .json({ errorMessage: "사용자를 찾을 수 없습니다." });
+        .json({ errorMessage: "댓글 작성자를 찾을 수 없습니다." });
     }
 
     // 신고 횟수를 증가시키고 저장
@@ -115,8 +123,8 @@ router.post("/comments/:commentId/report", async (req, res) => {
     // 댓글 남길때 유효성 검사를 진행 하는것도 나쁘지않음 -> "멍청이" 같은 정확한 욕설은 거를 수 있지만 "몽총이" 같은 욕설은 필터링이 불가능...
     // 신고를 당한 댓글 목록만 보여주는 api를 짜서 관리자가 확인 후 처리하는 방법도 나쁘지 않을까...?( 신고자정보, 신고당한 댓글내용, 댓글 작성자를 가져옴 )
     if (user.banCount >= 3) {
-      await Users.destroy({ where: { userId: user.userId } });
-      res.status(200).json({ message: "댓글 작성자가 강제탈퇴되었습니다." });
+      await Users.destroy({ where: { userId: comment.userId } });
+      res.status(200).json({ message: "부적절한 댓글작성으로 해당사용자는 서비스 이용이 중지되었습니다." });
     } else {
       res.status(200).json({ message: "댓글 신고가 접수 되었습니다." });
     }
@@ -138,18 +146,18 @@ router.get("/users", authMiddleware, async (req, res) => {
     }
 
     const userInfo = await Users.findOne({
-      attributes: ["nickname", "email"],
+      attributes: ["userId", "email", "nickname"],
       where: { userId }
     });
 
-    const posts = await Users.findAll({
-      attributes: ["title", "content", "createdAt"],
+    const posts = await Posts.findAll({
+      attributes: ["postId", "UserId", "nickname", "title", "content", "createdAt"],
       order: [['createdAt', 'DESC']],
       where: { userId }
     });
 
-    const comments = await Users.findAll({
-      attributes: ["comment", "createdAt"],
+    const comments = await Comments.findAll({
+      attributes: ["commentId", "UserId", "PostId", "comment", "createdAt"],
       order: [['createdAt', 'DESC']],
       where: { userId }
     });

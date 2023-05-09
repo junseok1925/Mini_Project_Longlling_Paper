@@ -1,7 +1,7 @@
 {
   "name": "mini_project_longlling_paper",
   "version": "1.0.0",
-  "description": "",
+  "description": "### 친구와 주변사람들과 롤링 페이퍼를 작성하고 공유해보세요.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,6 +12,7 @@
   "dependencies": {
     "cookie-parser": "^1.4.6",
     "cookieparser": "^0.1.0",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
     "mysql2": "^3.2.4",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.22",
+    "prettier": "^2.8.8",
     "sequelize-cli": "^6.6.0"
   }
 }
