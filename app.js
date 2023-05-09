@@ -3,13 +3,19 @@ const cookieParser = require('cookie-parser');
 const usersRouter = require('./routes/users.router');
 const postsRouter = require('./routes/posts.router');
 const commentsRouter = require('./routes/comments.router');
-const cors = require('cors');
+// const cors = require('cors');
 
-app.use(cors());
 
 
 const app = express();
 const PORT = 3013;
+
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3001'); // 클라이언트 주소
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // 허용되는 메서드
+  res.header('Access-Control-Allow-Headers', 'Content-Type'); // 요청 헤더
+  next();
+});
 
 app.use(express.json());
 app.use(cookieParser());
