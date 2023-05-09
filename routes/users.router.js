@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
+const { setToken } = require("../middlewares/token"); // token.js에서 setToken 함수를 가져온다.
 const authMiddleware = require("../middlewares/auth-middleware");
 const { Users, Posts, Comments, sequelize } = require("../models");
 
@@ -75,14 +76,13 @@ router.post("/login", async (req, res) => {
       });
       return;
     }
-    // JWT 생성하기
-    const token = jwt.sign(
-      { email: user.email, userId: user.userId },
-      "longlling-paper-key" // auth-middleware.js에서 설정한 비밀키
-    );
-    res.cookie("Authorization", `Bearer ${token}`);
+      // setToken 함수를 사용하여 accessToken과 refreshToken을 생성합니다.
+      const { accessToken, refreshToken } = setToken(user.userId);
 
-    return res.status(200).json({ message: "로그인에 성공했습니다." });
+      res.cookie("accessToken", accessToken);
+      res.cookie("refreshToken", refreshToken);
+
+    return res.status(200).json({ message: "로그인에 성공했습니다."}  );
   } catch (error) {
     console.error(error);
     res.status(400).json({
