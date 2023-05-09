@@ -13,12 +13,18 @@ app.use(cookieParser());
 app.use('/api', usersRouter);
 app.use('/api', postsRouter);
 app.use('/api', commentsRouter);
-app.use(cors({
-  origin: "http://localhost:3000",
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  optionsSuccessStatus: 200,
-}));
+app.use(
+  cors({
+    origin: "*", // 모든 출처 허용 옵션. true 를 써도 된다.
+
+    allowedHeaders: ["content-Type", "Authorization"],
+    exposedHeaders: ["content-Type", "Authorization"],
+    methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH", "OPTIONS"],
+    credential: "true",
+  })
+);
+
+app.options("*", cors());
 
 app.listen(PORT, () => {
   console.log(PORT, '포트 번호로 서버가 실행되었습니다.');
