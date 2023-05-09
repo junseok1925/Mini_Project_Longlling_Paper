@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "root",
-    "password": "rkd785985",
+    "password": "4321aaaa",
     "database": "longlling_Paper",
-    "host": "express-database.clplypyzjltq.ap-northeast-2.rds.amazonaws.com",
+    "host": "express-database.cqmtw47imquz.eu-north-1.rds.amazonaws.com",
     "dialect": "mysql"
   },
   "test": {
