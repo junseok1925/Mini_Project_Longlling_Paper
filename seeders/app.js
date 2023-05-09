@@ -14,7 +14,7 @@ app.use('/api', usersRouter);
 app.use('/api', postsRouter);
 app.use('/api', commentsRouter);
 app.use(cors({
-  origin: "https://43.201.106.25/api",
+  origin: "*",
   credentials: true,
   optionsSuccessStatus: 200,
 }));
