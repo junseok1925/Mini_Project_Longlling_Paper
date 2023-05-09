@@ -5,11 +5,8 @@ const postsRouter = require('./routes/posts.router');
 const commentsRouter = require('./routes/comments.router');
 const cors = require('cors');
 
-app.use(cors({
-  origin: ["http://localhost:3001", "http://43.201.106.25"],
-  credentials: true,
-  optionsSuccessStatus: 200,
-}));
+app.use(cors());
+
 
 const app = express();
 const PORT = 3013;
