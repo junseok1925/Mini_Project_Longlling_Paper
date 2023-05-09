@@ -14,7 +14,7 @@ app.use('/api', usersRouter);
 app.use('/api', postsRouter);
 app.use('/api', commentsRouter);
 app.use(cors({
-  origin: "*",
+  origin: "http://localhost:3000",
   credentials: true,
   optionsSuccessStatus: 200,
 }));
