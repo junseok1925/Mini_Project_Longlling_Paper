@@ -41,26 +41,28 @@ class UserController {
     }
   };
 
-  //로그인
-  login = async (req, res) => {
-    const { email, password } = req.body;
-    try {
-      const findOneEmail = await this.userService.findOneEmail(email);
-      if (!findOneEmail) {
-        return res.status(412).json({ errorMessgae: '닉네임 확인바람' });
-      }
-      const findOnePassword = await this.userService.findOnePassword(password);
-      if (!findOnePassword) {
-        return res.status(412).json({ errorMessgae: '비밀번호 확인바람' });
-      }
-      const loginData = await this.userService.login(email, password);
-      res.cookie('authorization', `Bearer ${loginData.token}`);
-      res.status(200).json({ message: '로그인 성공' });
-    } catch (err) {
-      console.error(err);
-      return res.status(412).json({ errorMessgae: '로그인 실패' });
+ //로그인
+ login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const findOneEmail = await this.userService.findOneEmail(email);
+    if (!findOneEmail) {
+      return res.status(412).json({ errorMessgae: '닉네임 확인바람' });
     }
-  };
+    const findOnePassword = await this.userService.findOnePassword(password);
+    if (!findOnePassword) {
+      return res.status(412).json({ errorMessgae: '비밀번호 확인바람' });
+    }
+    // setToken 함수를 사용하여 accessToken과 refreshToken을 생성합니다.
+    const { accessToken, refreshToken } = setToken(Users.userId);
+    res.cookie("accessToken", accessToken);
+    res.cookie("refreshToken", refreshToken);
+    res.status(200).json({ message: '로그인 성공' });
+  } catch (err) {
+    console.error(err);
+    return res.status(412).json({ errorMessgae: '로그인 실패' });
+  }
+};
 
   // 마이페이지
   mypage = async (req, res) => {

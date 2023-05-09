@@ -23,12 +23,10 @@ class UserService {
   // 로그인
   login = async (email, password) => {
     const user = await this.userRepository.findOneEmail(email);
-    const token = jwt.sign({ userId: user.userId }, 'longlling-paper-key');
+    const { accessToken, refreshToken } = setToken(user.userId);
+    res.cookie('accessToken', accessToken);
+    res.cookie('refreshToken', refreshToken);
     return { token };
-  };
-  findOnePassword = async (password) => {
-    const findOnePassword = await this.userRepository.findOnePassword(password);
-    return findOnePassword;
   };
   // 마이페이지
   findOneUserInfo = async (userId) => {
