@@ -11,6 +11,7 @@ const PORT = 3013;
 app.use(
   cors({
     origin: '*',
+    credentials: true,
   }),
 );
 
