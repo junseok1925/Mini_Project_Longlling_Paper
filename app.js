@@ -16,11 +16,8 @@ app.use('/api', commentsRouter);
 app.use(cors({
   origin: "http://localhost:3000",
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   optionsSuccessStatus: 200,
 }));
-
-
 
 app.listen(PORT, () => {
   console.log(PORT, '포트 번호로 서버가 실행되었습니다.');
