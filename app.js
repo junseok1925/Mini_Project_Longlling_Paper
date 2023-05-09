@@ -14,6 +14,7 @@ app.use('/api', usersRouter);
 app.use('/api', postsRouter);
 app.use('/api', commentsRouter);
 
+// t수정수정ㅈ수정
 app.options("*", cors());
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
