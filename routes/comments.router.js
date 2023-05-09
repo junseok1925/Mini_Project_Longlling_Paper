@@ -8,16 +8,10 @@ const authMiddleware = require('../middlewares/auth-middleware');
 
 // 내 롤링페이퍼 생성
 router.post(
-  '/posts/:postId/comments',
-  authMiddleware,
-  commentController.createComment,
-);
+  '/posts/:postId/comments',  authMiddleware,  commentController.createComment,);
 
 // 내 롤링페이퍼 댓글 상세조회
 router.get(
-  '/posts/:postId/comments',
-  authMiddleware,
-  commentController.detailComment,
-);
+  '/posts/:postId/comments',  authMiddleware,  commentController.detailComment,);
 
 module.exports = router;
