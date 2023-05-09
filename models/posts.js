@@ -1,5 +1,5 @@
-'use strict';
-const { Model } = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 /**
  * @param {import("sequelize").Sequelize} sequelize - Sequelize
  * @param {import("sequelize").DataTypes} DataTypes - Sequelize Column DataTypes
@@ -14,13 +14,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.Users, {
-        targetKey: 'userId',
-        foreignKey: 'UserId',
-        onDelete: 'CASCADE',
+        targetKey: "userId",
+        foreignKey: "UserId",
+        onDelete: "CASCADE",
       });
       this.hasMany(models.Comments, {
-        sourceKey: 'postId',
-        foreignKey: 'PostId',
+        sourceKey: "postId",
+        foreignKey: "PostId",
       });
     }
   }
@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       content: {
-        type: DataTypes.STRING(100),  // 나의 롱링페이퍼에 대한 간단한 한줄 소개, 롱링댓글을 달아주는 분들께 한마디 간단히
+        type: DataTypes.STRING(100), // 나의 롱링페이퍼에 대한 간단한 한줄 소개, 롱링댓글을 달아주는 분들께 한마디 간단히
         allowNull: false,
       },
       createdAt: {
@@ -62,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'Posts',
+      modelName: "Posts",
     }
   );
   return Posts;
