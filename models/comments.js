@@ -11,15 +11,15 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
 
       this.belongsTo(models.Users, {
-        targetKey: 'userId',
-        foreignKey: 'UserId',
-        onDelete: 'CASCADE',
+        targetKey: "userId",
+        foreignKey: "UserId",
+        onDelete: "CASCADE",
       });
 
       this.belongsTo(models.Posts, {
-        targetKey: 'postId',
-        foreignKey: 'PostId',
-        onDelete: 'CASCADE',
+        targetKey: "postId",
+        foreignKey: "PostId",
+        onDelete: "CASCADE",
       });
     }
   }
@@ -56,12 +56,12 @@ module.exports = (sequelize, DataTypes) => {
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
-				defaultValue: DataTypes.NOW,
+        defaultValue: DataTypes.NOW,
       },
       updatedAt: {
         allowNull: false,
         type: DataTypes.DATE,
-				defaultValue: DataTypes.NOW,
+        defaultValue: DataTypes.NOW,
       },
     },
     {
