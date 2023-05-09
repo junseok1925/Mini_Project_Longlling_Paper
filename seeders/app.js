@@ -13,11 +13,6 @@ app.use(cookieParser());
 app.use('/api', usersRouter);
 app.use('/api', postsRouter);
 app.use('/api', commentsRouter);
-app.use(cors({
-  origin: "*",
-  credentials: true,
-  optionsSuccessStatus: 200,
-}));
 
 
 app.listen(PORT, () => {
