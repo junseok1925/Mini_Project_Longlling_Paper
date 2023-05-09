@@ -14,12 +14,12 @@ app.use('/api', usersRouter);
 app.use('/api', postsRouter);
 app.use('/api', commentsRouter);
 
-app.use(
-  cors({
-    origin: 'http://localhost:3001',
-    credentials: true,
-  }),
-);
+app.use(cors({
+  origin: ["http://localhost:3001", "http://43.201.106.25"],
+  credentials: true,
+  optionsSuccessStatus: 200,
+}));
+
 
 app.listen(PORT, () => {
   console.log(PORT, '포트 번호로 서버가 실행되었습니다.');
