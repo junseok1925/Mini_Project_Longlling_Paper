@@ -12,20 +12,20 @@ class CommentController {
       if (!findOnePost) {
         return res
           .status(403)
-          .json({ errorMessage: '댓글 작성할 롤링페이퍼가 없음' });
+          .json({ errorMessage: '롤링페이퍼가 존재하지않습니다.' });
       }
       if (!comment) {
-        return res.status(403).json({ errorMessage: '댓글을 작성하삼' });
+        return res.status(403).json({ errorMessage: '친구에게 남길 메세지를 작성해주세요.' });
       }
       const createPostData = await this.commentService.createComment(
         comment,
         userId,
         postId,
       );
-      return res.status(200).json({ message: '댓글작성완료' });
+      return res.status(200).json({ message: '메세지을 작성하였습니다.' });
     } catch (err) {
       console.error(err);
-      return res.status(403).json({ errorMessage: '댓글 작성 실패' });
+      return res.status(403).json({ errorMessage: '메세지 작성에 실패했습니다.' });
     }
   };
 
@@ -38,7 +38,7 @@ class CommentController {
       console.log(userId);
       console.log(findOnePost.UserId);
       if (userId !== findOnePost.UserId) {
-        return res.status(403).json({ errorMessage: '댓글 조회 권한 없음' });
+        return res.status(403).json({ errorMessage: '댓글 조회 권한이 없습니다.' });
       }
       const findAllComment = await this.commentService.findAllComment(postId);
       return res.status(200).json({ data: findAllComment });
@@ -46,7 +46,7 @@ class CommentController {
       console.error(err);
       return res
         .status(400)
-        .json({ errorMessage: '나에게 달린 댓글 조회 실패' });
+        .json({ errorMessage: '나에게 달린 메세지 조회 실패' });
     }
   };
 

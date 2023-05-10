@@ -10,7 +10,7 @@ class PostController {
       if (!title && !content) {
         return res
           .status(400)
-          .json({ errorMessage: '제목 또는 자기소개 내용을 입력하세요' });
+          .json({ errorMessage: '제목 또는 한줄 소개 내용을 입력하세요' });
       }
       await this.postService.createPost(nickname, userId, title, content);
       return res.status(400).json({ message: '롤링페이지 생성 성공' });
@@ -41,10 +41,10 @@ class PostController {
       }
 
       await this.postService.putPost(postId, title, content);
-      return res.status(200).json({ message: '롤링페이퍼를 수정하였습니다.' });
+      return res.status(200).json({ message: '내 롤링페이퍼를 수정하였습니다.' });
     } catch (err) {
       console.error(err);
-      return res.status(400).json({ errorMessage: '롤링페이퍼 수정에 실패하였습니다.' });
+      return res.status(400).json({ errorMessage: '내 롤링페이퍼 수정에 실패하였습니다.' });
     }
   };
   //롤페이퍼 삭제
@@ -57,18 +57,18 @@ class PostController {
       if (!findOnePost) {
         return res
           .status(400)
-          .json({ errorMessage: '삭제할 롤링페이퍼가 없음' });
+          .json({ errorMessage: '삭제할 롤링페이퍼가 존재하지 않습니다.' });
       }
       console.log(userId);
       console.log(findOnePost.UserId);
       if (userId !== findOnePost.UserId) {
-        return res.status(400).json({ errorMessage: '삭제 권한 없음' });
+        return res.status(400).json({ errorMessage: '롤링페이퍼 삭제 권한이 없습니다.' });
       }
       await this.postService.deletePost(postId);
-      return res.status(200).json({ message: '삭제 완료' });
+      return res.status(200).json({ message: '내 롱링페이퍼가 삭제되었습니다.' });
     } catch (err) {
       console.error(err);
-      return res.status(400).json({ errorMessage: '삭제 실패' });
+      return res.status(400).json({ errorMessage: '롱링페이퍼 삭제에 실패했습니다.' });
     }
   };
 }
