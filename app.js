@@ -6,17 +6,19 @@ const commentsRouter = require('./routes/comments.router');
 const cors = require('cors');
 
 const app = express();
-const PORT = 3000;
+const PORT = 3013;
+
+app.use(express.json());
+app.use(cookieParser());
 
 app.use(
   cors({
-    origin: '*',
+    origin: true,
     credentials: true,
   }),
 );
 
-app.use(express.json());
-app.use(cookieParser());
+
 app.use('/api', usersRouter);
 app.use('/api', postsRouter);
 app.use('/api', commentsRouter);
