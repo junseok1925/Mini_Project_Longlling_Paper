@@ -108,10 +108,9 @@ class UserController {
 
       user.banCount += 1;
       await user.save();
+      //신고 3회 이상 유저계정삭제(비즈니스로직 변경)
       if (user.banCount >= 3) {
-        await Users.destroy({
-          where: { userId: findOneComment.UserId },
-        });
+        await this.UserService.deleteUser(commentId)
         return res.status(200).json({
           message:
             '부적절한 댓글작성 3회 이상으로 해당사용자는 서비스 이용이 중지되었습니다.',
