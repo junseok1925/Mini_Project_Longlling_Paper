@@ -32,6 +32,14 @@ class UserService {
     const findOnePassword = await this.userRepository.findOnePassword(password);
     return findOnePassword;
   };
+
+  findOneUserId = async (userId) => {
+    const userInfo = await this.userRepository.findOne({
+      where: { id: userId },
+    });
+    return userInfo;
+  };
+
   // 마이페이지
   findOneUserInfo = async (userId) => {
     const findOneUserInfo = await this.userRepository.findOneUserInfo(userId);
@@ -57,12 +65,10 @@ class UserService {
     return deleteComment;
   };
   //신고 받은 유저아이디 삭제
-  deleteUser = async(commentId)=>{
-    const deleteUser = await this.userRepository.deleteUser(userId,commentId)
-    return deleteUser
-  }
-
-
+  deleteUser = async (commentId) => {
+    const deleteUser = await this.userRepository.deleteUser(userId, commentId);
+    return deleteUser;
+  };
 }
 
 module.exports = UserService;
