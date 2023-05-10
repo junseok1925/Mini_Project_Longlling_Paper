@@ -4,7 +4,8 @@
   "description": "### 친구와 주변사람들과 롤링 페이퍼를 작성하고 공유해보세요.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettify": "prettier --write *.js **/*.js"
   },
   "keywords": [],
   "author": "",
@@ -13,9 +14,11 @@
     "cookie-parser": "^1.4.6",
     "cookieparser": "^0.1.0",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
-    "mysql2": "^3.2.4",
+    "mysql2": "^3.3.0",
+    "package.json": "^2.0.1",
     "sequelize": "^6.31.1"
   },
   "devDependencies": {
