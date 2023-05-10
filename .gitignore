@@ -141,4 +141,12 @@ dist
 # SvelteKit build / generate output
 .svelte-kit
 
+# Ignore config.json file
+/config.json
+
+# Ignore sensitive information in config.json
+config.json
+**/config.json
+
+
 # End of https://www.toptal.com/developers/gitignore/api/node
