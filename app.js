@@ -17,15 +17,15 @@ app.use(cookieParser());
 //     credentials: true,
 //   }),
 // );
-const corsOptions = {
-  origin: true,
-  Credentials: true,
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: true,
+//   Credentials: true,
+// };
+// app.use(cors(corsOptions));
 
-app.use('/api', usersRouter);
-app.use('/api', postsRouter);
-app.use('/api', commentsRouter);
+// app.use('/api', usersRouter);
+// app.use('/api', postsRouter);
+// app.use('/api', commentsRouter);
 
 
 // const express = require('express');
@@ -54,6 +54,16 @@ app.use('/api', commentsRouter);
 
 // // 정적 파일 제공 설정을 추가하세요.
 // app.use(express.static("build"));
+
+
+// 모든 요청을 허용할 경우
+app.use(cors());
+
+// 특정 도메인만 요청을 허용할 경우
+app.use(cors({
+  origin: 'https://kimchaeminthegreat.shop'
+}));
+
 
 
 app.listen(PORT, () => {
