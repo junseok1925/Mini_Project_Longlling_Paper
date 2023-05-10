@@ -16,6 +16,7 @@ module.exports = {
       },
       nickname: {
         allowNull: false,
+        unique: true,
         type: Sequelize.STRING,
       },
       password: {
