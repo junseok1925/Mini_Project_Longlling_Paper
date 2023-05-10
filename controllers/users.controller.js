@@ -1,11 +1,12 @@
 const UserService = require('../services/users.service');
 const { Users } = require('../models');
-const { setToken } = require("../middlewares/token"); // token.js에서 setToken 함수를 가져온다.
+const { setToken } = require('../middlewares/token'); // token.js에서 setToken 함수를 가져온다.
 
 class UserController {
   userService = new UserService();
   //회원가입
   signup = async (req, res) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
     const { nickname, password, email } = req.body;
     console.log(nickname, password, email);
     try {
@@ -57,8 +58,8 @@ class UserController {
       }
       // setToken 함수를 사용하여 accessToken과 refreshToken을 생성합니다.
       const { accessToken, refreshToken } = setToken(Users.userId);
-      res.cookie("accessToken", accessToken);
-      res.cookie("refreshToken", refreshToken);
+      res.cookie('accessToken', accessToken);
+      res.cookie('refreshToken', refreshToken);
       res.status(200).json({ message: '로그인 성공' });
     } catch (err) {
       console.error(err);
