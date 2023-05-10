@@ -18,7 +18,6 @@ app.use(
   }),
 );
 
-
 app.use('/api', usersRouter);
 app.use('/api', postsRouter);
 app.use('/api', commentsRouter);
