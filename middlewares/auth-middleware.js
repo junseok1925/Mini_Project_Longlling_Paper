@@ -5,7 +5,8 @@ const {
   validAccessToken,
   validRefreshToken,
 } = require('./token');
-
+require('dotenv').config()
+const env = process.env
 const SECRET_KEY = 'longlling-paper-key';
 
 module.exports = async (req, res, next) => {
@@ -25,7 +26,7 @@ module.exports = async (req, res, next) => {
 
   // accessToken이 유효하지 않으면, refreshToken에 저장된 사용자 userId를 이용해 새로운 accessToken 생성해주기
   if (!validAccessToken(accessToken)) {
-    const { userId } = jwt.verify(refreshToken, 'longlling-paper-key');
+    const { userId } = jwt.verify(refreshToken, env.DB_KEY);
     const newAccessToken = createAccessToken(userId);
     res.cookie('accessToken', newAccessToken);
   }

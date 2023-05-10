@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
+require('dotenv').config()
+const env = process.env
 
-const SECRET_KEY = "longlling-paper-key";
+const SECRET_KEY = env.DB_KEY;
 const tokenObject = {}; // Refresh Token을 저장할 Object
 
 // userId를 매개변수로 받아 새로운 accessToken와 refreshToken을 생성
