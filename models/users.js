@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
+        unique: true,
         type: DataTypes.INTEGER,
       },
       nickname: {
