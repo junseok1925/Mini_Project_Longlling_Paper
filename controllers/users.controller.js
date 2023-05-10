@@ -65,7 +65,7 @@ class UserController {
       res.status(200).json({ message: '로그인에 성공했습니다.' });
     } catch (err) {
       console.error(err);
-      return res.status(412).json({ errorMessage: '로그인 실패' });
+      return res.status(412).json({ errorMessage: '로그인에 실패했습니다.' });
     }
   };
 
@@ -74,7 +74,7 @@ class UserController {
     const { userId } = res.locals.user;
     try {
       if (!userId) {
-        return res.status(412).json({ errorMessage: '조회권한 없음' });
+        return res.status(412).json({ errorMessage: '조회권한이 없습니다.' });
       }
 
       const userInfo = await this.userService.findOneUserInfo(userId);
@@ -83,7 +83,7 @@ class UserController {
       return res.status(200).json({ userInfo, allMyPost, allMyComment });
     } catch (err) {
       console.error(err);
-      return res.status(412).json({ errorMessage: '마이페이지 조회실패' });
+      return res.status(412).json({ errorMessage: '마이페이지 조회에 실패했습니다.' });
     }
   };
 
@@ -98,14 +98,14 @@ class UserController {
       if (!findOneComment) {
         return res
           .status(400)
-          .json({ errorMessage: '댓글을 찾을 수 없습니다.' });
+          .json({ errorMessage: '메세지을 찾을 수 없습니다.' });
       }
       //신고당할 유저ID찾기
       const user = await Users.findByPk(findOneComment.UserId);
       if (!user) {
         return res
           .status(400)
-          .json({ errorMessage: '댓글 작성자를 찾을 수 없습니다.' });
+          .json({ errorMessage: '메세지 작성자를 찾을 수 없습니다.' });
       }
 
       user.banCount += 1;
@@ -115,7 +115,7 @@ class UserController {
         await this.UserService.deleteUser(commentId)
         return res.status(200).json({
           message:
-            '부적절한 댓글작성 3회 이상으로 해당사용자는 서비스 이용이 중지되었습니다.',
+            '부적절한 메세지작성 3회 이상으로 해당사용자는 서비스 이용이 중지되었습니다.',
         });
       }
       //신고 받은 댓글 삭제
@@ -124,7 +124,7 @@ class UserController {
     } catch (err) {
       console.error(err);
       return res.status(200).json({
-        message: '댓글 신고에 실패하였습니다.',
+        message: '메세지 신고에 실패하였습니다.',
       });
     }
   };
