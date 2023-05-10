@@ -6,7 +6,6 @@ class UserController {
   userService = new UserService();
   //회원가입
   signup = async (req, res) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
     const { nickname, password, email } = req.body;
     console.log(nickname, password, email);
     try {
@@ -22,7 +21,9 @@ class UserController {
         return res.status(412).json({ errorMessgae: '이메일을 입력해주세요.' });
       }
       if (!password) {
-        return res.status(412).json({ errorMessgae: '비밀번호를 입력해주세요.' });
+        return res
+          .status(412)
+          .json({ errorMessgae: '비밀번호를 입력해주세요.' });
       }
       // 2)
       //create하기전 Users에 있는 데이터를 가져온 것이 findOneUser의 값
@@ -30,25 +31,31 @@ class UserController {
       const findOneEmail = await this.userService.findOneEmail(email);
 
       if (findOneNickname) {
-        return res.status(412).json({ errorMessgae: '이미 사용중인 닉네임입니다.' });
+        return res
+          .status(412)
+          .json({ errorMessgae: '이미 사용중인 닉네임입니다.' });
       }
       if (findOneEmail) {
-        return res.status(412).json({ errorMessgae: '이미 사용중인 이메일입니다.' });
+        return res
+          .status(412)
+          .json({ errorMessgae: '이미 사용중인 이메일입니다.' });
       }
       // 3)
       await this.userService.signup(nickname, password, email);
 
       return res.status(200).json({ message: '회원가입에 성공했습니다.' });
-
     } catch (err) {
       console.error(err);
-      return res.status(400).json({ errorMessgae: '요청한 데이터 형식이 올바르지 않습니다.' });
+      return res
+        .status(400)
+        .json({ errorMessgae: '요청한 데이터 형식이 올바르지 않습니다.' });
     }
   };
 
   //로그인
   login = async (req, res) => {
     const { email, password } = req.body;
+
     try {
       const findOneEmail = await this.userService.findOneEmail(email);
       if (!findOneEmail) {
@@ -56,7 +63,17 @@ class UserController {
       }
       const findOnePassword = await this.userService.findOnePassword(password);
       if (!findOnePassword) {
-        return res.status(412).json({ errorMessgae: '비밀번호를 확인해주세요' });
+        return res
+          .status(412)
+          .json({ errorMessgae: '비밀번호를 확인해주세요' });
+      }
+      const user = await Users.findByPk(findOneEmail.userId);
+      console.log(user);
+      if (user.banCount >= 3) {
+        return res.status(400).json({
+          message:
+            '부적절한 메세지작성 3회 이상으로 해당사용자는 서비스 이용이 중지되었습니다.',
+        });
       }
       // setToken 함수를 사용하여 accessToken과 refreshToken을 생성합니다.
       const { accessToken, refreshToken } = setToken(findOneEmail.userId);
@@ -83,7 +100,9 @@ class UserController {
       return res.status(200).json({ userInfo, allMyPost, allMyComment });
     } catch (err) {
       console.error(err);
-      return res.status(412).json({ errorMessage: '마이페이지 조회에 실패했습니다.' });
+      return res
+        .status(412)
+        .json({ errorMessage: '마이페이지 조회에 실패했습니다.' });
     }
   };
 
@@ -110,14 +129,7 @@ class UserController {
 
       user.banCount += 1;
       await user.save();
-      //신고 3회 이상 유저계정삭제(비즈니스로직 변경)
-      if (user.banCount >= 3) {
-        await this.UserService.deleteUser(commentId)
-        return res.status(200).json({
-          message:
-            '부적절한 메세지작성 3회 이상으로 해당사용자는 서비스 이용이 중지되었습니다.',
-        });
-      }
+
       //신고 받은 댓글 삭제
       const deleteComment = await this.userService.deleteComment(commentId);
       return res.status(200).json({ message: '신고로 삭제되었습니다!' });

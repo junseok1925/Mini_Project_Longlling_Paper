@@ -5,9 +5,8 @@ const {
   validAccessToken,
   validRefreshToken,
 } = require('./token');
-require('dotenv').config()
-const env = process.env
-const SECRET_KEY = 'longlling-paper-key';
+require('dotenv').config();
+const env = process.env;
 
 module.exports = async (req, res, next) => {
   const { accessToken, refreshToken } = req.cookies;
@@ -40,7 +39,7 @@ module.exports = async (req, res, next) => {
   }
 
   try {
-    const { userId } = jwt.verify(accessToken, SECRET_KEY);
+    const { userId } = jwt.verify(accessToken, env.DB_KEY);
     const user = await Users.findOne({ where: { userId } });
     if (!user) {
       throw new Error();
