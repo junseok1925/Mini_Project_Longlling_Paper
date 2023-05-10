@@ -8,15 +8,15 @@ const cors = require('cors');
 const app = express();
 const PORT = 3000;
 
-app.use(
-  cors({
-    origin: '*',
-    credentials: true,
-  }),
-);
-
-app.use(express.json());
 app.use(cookieParser());
+app.use(express.json());
+
+const corsOptions = {
+  origin: true,
+  credentials: true,
+};
+app.use(cors(corsOptions));
+
 app.use('/api', usersRouter);
 app.use('/api', postsRouter);
 app.use('/api', commentsRouter);
