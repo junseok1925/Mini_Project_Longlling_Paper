@@ -15,4 +15,3 @@ router.get("/users", authMiddleware, userController.mypage);
 // 댓글 신고시 댓글 삭제 및 3번이상 강퇴
 router.post("/comments/:commentId/report", authMiddleware, userController.banComment)
 module.exports = router;
-
