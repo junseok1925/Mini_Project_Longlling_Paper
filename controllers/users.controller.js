@@ -77,7 +77,7 @@ class UserController {
       const userInfo = await this.userService.findOneUserInfo(userId);
       const allMyPost = await this.userService.findAllPost(userId);
       const allMyComment = await this.userService.findAllComment(userId);
-      return res.status(200).json({ data: userInfo, allMyPost, allMyComment });
+      return res.status(200).json({ userInfo, allMyPost, allMyComment });
     } catch (err) {
       console.error(err);
       return res.status(412).json({ errorMessage: '마이페이지 조회실패' });
