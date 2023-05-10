@@ -16,13 +16,13 @@ class UserController {
 
       // 1)
       if (!nickname) {
-        return res.status(412).json({ errorMessgae: '닉네임 입력 안함' });
+        return res.status(412).json({ errorMessage: '닉네임 입력 안함' });
       }
       if (!email) {
-        return res.status(412).json({ errorMessgae: 'email 입력 안함' });
+        return res.status(412).json({ errorMessage: 'email 입력 안함' });
       }
       if (!password) {
-        return res.status(412).json({ errorMessgae: 'password 입력 안함' });
+        return res.status(412).json({ errorMessage: 'password 입력 안함' });
       }
       // 2)
       //create하기전 Users에 있는 데이터를 가져온 것이 findOneUser의 값
@@ -30,17 +30,17 @@ class UserController {
       const findOneEmail = await this.userService.findOneEmail(email);
 
       if (findOneNickname) {
-        return res.status(412).json({ errorMessgae: '닉네임 중복임' });
+        return res.status(412).json({ errorMessage: '닉네임 중복임' });
       }
       if (findOneEmail) {
-        return res.status(412).json({ errorMessgae: '이메일 중복임' });
+        return res.status(412).json({ errorMessage: '이메일 중복임' });
       }
       // 3)
       await this.userService.signup(nickname, password, email);
       return res.status(200).json({ message: '회원가입성공' });
     } catch (err) {
       console.error(err);
-      return res.status(412).json({ errorMessgae: 'catch 가입 실패' });
+      return res.status(412).json({ errorMessage: 'catch 가입 실패' });
     }
   };
 
@@ -50,11 +50,11 @@ class UserController {
     try {
       const findOneEmail = await this.userService.findOneEmail(email);
       if (!findOneEmail) {
-        return res.status(412).json({ errorMessgae: '닉네임 확인바람' });
+        return res.status(412).json({ errorMessage: '닉네임 확인바람' });
       }
       const findOnePassword = await this.userService.findOnePassword(password);
       if (!findOnePassword) {
-        return res.status(412).json({ errorMessgae: '비밀번호 확인바람' });
+        return res.status(412).json({ errorMessage: '비밀번호 확인바람' });
       }
       // setToken 함수를 사용하여 accessToken과 refreshToken을 생성합니다.
       const { accessToken, refreshToken } = setToken(findOneEmail.userId);
@@ -63,7 +63,7 @@ class UserController {
       res.status(200).json({ message: '로그인 성공' });
     } catch (err) {
       console.error(err);
-      return res.status(412).json({ errorMessgae: '로그인 실패' });
+      return res.status(412).json({ errorMessage: '로그인 실패' });
     }
   };
 
@@ -72,7 +72,7 @@ class UserController {
     const { userId } = res.locals.user;
     try {
       if (!userId) {
-        return res.status(412).json({ errorMessgae: '조회권한 없음' });
+        return res.status(412).json({ errorMessage: '조회권한 없음' });
       }
 
       const userInfo = await this.userService.findOneUserInfo(userId);
@@ -81,7 +81,7 @@ class UserController {
       return res.status(200).json({ data: userInfo, allMyPost, allMyComment });
     } catch (err) {
       console.error(err);
-      return res.status(412).json({ errorMessgae: '마이페이지 조회실패' });
+      return res.status(412).json({ errorMessage: '마이페이지 조회실패' });
     }
   };
 
