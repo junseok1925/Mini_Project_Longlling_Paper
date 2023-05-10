@@ -13,7 +13,7 @@ class PostController {
           .json({ errorMessage: '제목 또는 내용을 입력하세요' });
       }
       await this.postService.createPost(nickname, userId, title, content);
-      return res.status(400).json({ message: '롤링페이지 생성 성공' });
+      return res.status(200).json({ message: '롤링페이지 생성 성공' });
     } catch (err) {
       console.error(err);
       return res.status(400).json({ errorMessage: '롤링페이지 생성 실패' });

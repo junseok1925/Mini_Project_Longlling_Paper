@@ -57,7 +57,7 @@ class UserController {
         return res.status(412).json({ errorMessgae: '비밀번호 확인바람' });
       }
       // setToken 함수를 사용하여 accessToken과 refreshToken을 생성합니다.
-      const { accessToken, refreshToken } = setToken(Users.userId);
+      const { accessToken, refreshToken } = setToken(findOneEmail.userId);
       res.cookie('accessToken', accessToken);
       res.cookie('refreshToken', refreshToken);
       res.status(200).json({ message: '로그인 성공' });
