@@ -59,10 +59,11 @@ app.use(cookieParser());
 // 모든 요청을 허용할 경우
 app.use(cors());
 
+
 // 특정 도메인만 요청을 허용할 경우
-app.use(cors({
-  origin: 'https://kimchaeminthegreat.shop'
-}));
+// app.use(cors({
+//   origin: 'https://kimchaeminthegreat.shop'
+// }));
 
 
 

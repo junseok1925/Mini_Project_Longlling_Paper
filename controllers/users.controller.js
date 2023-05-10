@@ -6,7 +6,7 @@ class UserController {
   userService = new UserService();
   //회원가입
   signup = async (req, res) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.header('Access-Control-Allow-Origin', 'http://43.201.106.25:3000');
     const { nickname, password, email } = req.body;
     console.log(nickname, password, email);
     try {
