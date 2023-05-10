@@ -6,7 +6,6 @@ class UserController {
   userService = new UserService();
   //회원가입
   signup = async (req, res) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
     const { nickname, password, email } = req.body;
     console.log(nickname, password, email);
     try {
@@ -16,13 +15,13 @@ class UserController {
 
       // 1)
       if (!nickname) {
-        return res.status(412).json({ errorMessgae: '닉네임을 입력해주세요.' });
+        return res.status(412).json({ errorMessage: '닉네임을 입력해주세요.' });
       }
       if (!email) {
-        return res.status(412).json({ errorMessgae: '이메일을 입력해주세요.' });
+        return res.status(412).json({ errorMessage: '이메일을 입력해주세요.' });
       }
       if (!password) {
-        return res.status(412).json({ errorMessgae: '비밀번호를 입력해주세요.' });
+        return res.status(412).json({ errorMessage: '비밀번호를 입력해주세요.' });
       }
       // 2)
       //create하기전 Users에 있는 데이터를 가져온 것이 findOneUser의 값
@@ -30,10 +29,10 @@ class UserController {
       const findOneEmail = await this.userService.findOneEmail(email);
 
       if (findOneNickname) {
-        return res.status(412).json({ errorMessgae: '이미 사용중인 닉네임입니다.' });
+        return res.status(412).json({ errorMessage: '이미 사용중인 닉네임입니다.' });
       }
       if (findOneEmail) {
-        return res.status(412).json({ errorMessgae: '이미 사용중인 이메일입니다.' });
+        return res.status(412).json({ errorMessage: '이미 사용중인 이메일입니다.' });
       }
       // 3)
       await this.userService.signup(nickname, password, email);
@@ -42,7 +41,7 @@ class UserController {
 
     } catch (err) {
       console.error(err);
-      return res.status(400).json({ errorMessgae: '요청한 데이터 형식이 올바르지 않습니다.' });
+      return res.status(400).json({ errorMessage: '요청한 데이터 형식이 올바르지 않습니다.' });
     }
   };
 
@@ -52,11 +51,11 @@ class UserController {
     try {
       const findOneEmail = await this.userService.findOneEmail(email);
       if (!findOneEmail) {
-        return res.status(412).json({ errorMessgae: '닉네임을 확인해주세요' });
+        return res.status(412).json({ errorMessage: '닉네임을 확인해주세요' });
       }
       const findOnePassword = await this.userService.findOnePassword(password);
       if (!findOnePassword) {
-        return res.status(412).json({ errorMessgae: '비밀번호를 확인해주세요' });
+        return res.status(412).json({ errorMessage: '비밀번호를 확인해주세요' });
       }
       // setToken 함수를 사용하여 accessToken과 refreshToken을 생성합니다.
       const { accessToken, refreshToken } = setToken(findOneEmail.userId);
