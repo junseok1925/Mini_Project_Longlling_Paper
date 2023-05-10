@@ -11,12 +11,17 @@ const PORT = 3013;
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(
-  cors({
-    origin: true,
-    credentials: true,
-  }),
-);
+// app.use(
+//   cors({
+//     origin: true,
+//     credentials: true,
+//   }),
+// );
+const corsOptions = {
+  origin: true,
+  Credentials: true,
+};
+app.use(cors(corsOptions));
 
 app.use('/api', usersRouter);
 app.use('/api', postsRouter);
