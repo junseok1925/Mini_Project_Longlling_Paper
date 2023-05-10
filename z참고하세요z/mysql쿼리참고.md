@@ -8,8 +8,8 @@ npx sequelize db:migrate:undo
 npx sequelize db:migrate
 
 # migration파일 기반 테이블 생성 오류시 ( 권한주입 )
-/Users/junseok/Documents/ -> 백엔드레포 위치로 변경
 chmod +x /Users/junseok/Documents/Mini_Project_Longlling_Paper/node_modules/.bin/sequelize
+         /Users/junseok/Documents/ -> 백엔드레포 위치로 변경
 
 -- 테이블 데이터 삭제, 삭제 후 다시 migration파일 기반 테이블 생성해야함
 DELETE FROM Comments;
