@@ -1,33 +1,3 @@
-// const express = require('express');
-// const cookieParser = require('cookie-parser');
-// const usersRouter = require('./routes/users.router');
-// const postsRouter = require('./routes/posts.router');
-// const commentsRouter = require('./routes/comments.router');
-// const cors = require('cors');
-
-// const app = express();
-// const PORT = 3000;
-
-// app.use(express.json());
-// app.use(cookieParser());
-
-// // app.use(
-// //   cors({
-// //     origin: true,
-// //     credentials: true,
-// //   }),
-// // );
-// const corsOptions = {
-//   origin: true,
-//   Credentials: true,
-// };
-// app.use(cors(corsOptions));
-
-// app.use('/api', usersRouter);
-// app.use('/api', postsRouter);
-// app.use('/api', commentsRouter);
-
-
 const express = require('express');
 const path = require('path'); // 이 줄을 추가하세요.
 const cookieParser = require('cookie-parser');
