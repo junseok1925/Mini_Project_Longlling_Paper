@@ -56,6 +56,13 @@ class UserService {
     const deleteComment = await this.userRepository.deleteComment(commentId);
     return deleteComment;
   };
+  //신고 받은 유저아이디 삭제
+  deleteUser = async(commentId)=>{
+    const deleteUser = await this.userRepository.deleteUser(userId,commentId)
+    return deleteUser
+  }
+
+
 }
 
 module.exports = UserService;
