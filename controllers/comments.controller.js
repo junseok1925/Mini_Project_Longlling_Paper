@@ -41,7 +41,7 @@ class CommentController {
         return res.status(403).json({ errorMessage: '댓글 조회 권한이 없습니다.' });
       }
       const findAllComment = await this.commentService.findAllComment(postId);
-      return res.status(200).json({ data: findAllComment });
+      return res.status(200).json({ findOnePost, findAllComment });
     } catch (err) {
       console.error(err);
       return res
