@@ -64,5 +64,15 @@ class UserRepository {
       where: { commentId },
     });
   };
+  //신고 받은 유저아이디 삭제
+  deleteUser = async(commentId)=>{
+    const banCommentId = await Comments.findByPk(commentId)
+    const deleteUserId = await Users.findByPk(banCommentId.UserId)
+    const deleteUser = await Users.destroy({
+      where:{userId : deleteUserId.userId}
+    })
+  }
+
+
 }
 module.exports = UserRepository;
