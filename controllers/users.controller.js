@@ -71,7 +71,7 @@ class UserController {
 
       if (user.banCount >= 3) {
         return res.status(400).json({
-          message:
+          errorMessage:
             '부적절한 메세지작성 3회 이상으로 해당사용자는 서비스 이용이 중지되었습니다.',
         });
       }
