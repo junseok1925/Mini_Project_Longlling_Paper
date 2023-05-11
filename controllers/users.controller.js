@@ -23,8 +23,7 @@ class UserController {
       if (!password) {
         return res
           .status(412)
-          .json({ errorMessgae: '비밀번호를 입력해주세요.' });
-        return res.status(412).json({ errorMessage: '비밀번호를 입력해주세요.' });
+          .json({ errorMessage: '비밀번호를 입력해주세요.' });
       }
       // 2)
       //create하기전 Users에 있는 데이터를 가져온 것이 findOneUser의 값
@@ -34,13 +33,12 @@ class UserController {
       if (findOneNickname) {
         return res
           .status(412)
-          .json({ errorMessgae: '이미 사용중인 닉네임입니다.' });
+          .json({ errorMessage: '이미 사용중인 닉네임입니다.' });
       }
       if (findOneEmail) {
         return res
           .status(412)
-          .json({ errorMessgae: '이미 사용중인 이메일입니다.' });
-        return res.status(412).json({ errorMessage: '이미 사용중인 닉네임입니다.' });
+          .json({ errorMessage: '이미 사용중인 이메일입니다.' });
       }
       // 3)
       await this.userService.signup(nickname, password, email);
@@ -49,7 +47,7 @@ class UserController {
     } catch (err) {
       return res
         .status(400)
-        .json({ errorMessgae: '요청한 데이터 형식이 올바르지 않습니다.' });
+        .json({ errorMessage: '요청한 데이터 형식이 올바르지 않습니다.' });
     }
   };
 
@@ -66,7 +64,7 @@ class UserController {
       if (!findOnePassword) {
         return res
           .status(412)
-          .json({ errorMessgae: '비밀번호를 확인해주세요' });
+          .json({ errorMessage: '비밀번호를 확인해주세요' });
       }
       
       const user = await Users.findByPk(findOneEmail.userId);
