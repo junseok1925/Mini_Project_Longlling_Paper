@@ -137,7 +137,7 @@ class UserController {
     } catch (err) {
       console.error(err);
       return res.status(200).json({
-        message: '메세지 신고에 실패하였습니다.',
+        errorMessage: '메세지 신고에 실패하였습니다.',
       });
     }
   };
